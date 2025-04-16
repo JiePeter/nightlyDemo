@@ -1,0 +1,480 @@
+:root {
+  /* 夜间模式（默认） */
+  --bg-color: #121a2b;
+  --text-color: #f0f4f8;
+  --title-color: #e2e8f0;
+  --accent-color: #64b5f6;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --toggle-bg: #121212;
+  --toggle-icon-active: 0;
+  /* SVG场景控制 */
+  --night-scene-opacity: 1;
+  --day-scene-opacity: 0;
+  /* 页脚颜色 */
+  --footer-bg: rgba(12, 17, 27, 0.7);
+  --footer-text: rgba(240, 244, 248, 0.7);
+  --footer-icon: rgba(240, 244, 248, 0.9);
+  /* 内容区域背景 */
+  --content-bg: rgba(18, 26, 43, 0.4);
+  /* 字体间距 */
+  --letter-spacing: 0.02em;
+  --word-spacing: 0.05em;
+}
+
+[data-theme="light"] {
+  /* 日间模式 - 增强对比度 */
+  --bg-color: #f0f4f8;
+  --text-color: #1a202c; /* 更深的文字颜色提高可读性 */
+  --title-color: #121620;
+  --accent-color: #2a69ac;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --toggle-bg: #e2e8f0;
+  --toggle-icon-active: 1;
+  /* SVG场景控制 */
+  --night-scene-opacity: 0;
+  --day-scene-opacity: 1;
+  /* 页脚颜色 - 调整为透明 */
+  --footer-bg: rgba(224, 230, 240, 0);
+  --footer-text: rgba(26, 32, 44, 0.8);
+  --footer-icon: rgba(26, 32, 44, 0.9);
+  /* 内容区域背景 - 更高透明度 */
+  --content-bg: rgba(240, 244, 248, 0.75);
+  /* 字体间距 - 调整 */
+  --letter-spacing: 0.03em;
+  --word-spacing: 0.08em;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Serif SC', serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+  /* 无障碍支持 */
+  line-height: 1.6;
+  letter-spacing: var(--letter-spacing);
+  word-spacing: var(--word-spacing);
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none; /* 隐藏滚动条轨道 */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* 背景样式 */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* SVG场景控制 */
+.night-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: var(--night-scene-opacity);
+  transition: opacity 0.8s ease;
+  filter: blur(0px);
+}
+
+.day-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: var(--day-scene-opacity);
+  transition: opacity 0.8s ease;
+  filter: blur(0px);
+}
+
+.night-scene svg,
+.day-scene svg {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+/* 优化SVG图案 */
+#dayPattern {
+  transform-origin: center center;
+}
+
+/* 为主题切换添加过渡动画 */
+.theme-transition .night-scene,
+.theme-transition .day-scene {
+  transition: opacity 1.2s ease;
+}
+
+/* 主内容区域 */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 100px); /* 预留页脚高度 */
+  padding: 2rem;
+  flex: 1;
+  position: relative;
+  padding-bottom: 2rem;
+}
+
+.poem-container {
+  max-width: 600px;
+  width: 100%;
+  background-color: var(--content-bg);
+  backdrop-filter: blur(10px);
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px var(--shadow-color);
+  transform: translateY(0);
+  transition: all 0.5s ease;
+  margin-bottom: 1.5rem; /* 增加容器底部间距 */
+}
+
+/* 白天模式下增强文字可读性 */
+[data-theme="light"] .poem-content {
+  font-weight: 400; /* 适中字重 */
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3); /* 更轻微的文字阴影 */
+}
+
+/* 诗歌样式 */
+.poem-title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--title-color);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+.poem-content {
+  text-align: center;
+  font-size: 1.25rem;
+  line-height: 2.2;
+}
+
+.stanza {
+  margin-bottom: 2.5rem;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.stanza:last-child {
+  margin-bottom: 0;
+}
+
+/* 添加文本渐隐效果 */
+.fade-out {
+  /* 删除无效的文字隐藏逻辑 */
+  display: none;
+}
+
+.poem-content p {
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.poem-content p:last-child {
+  margin-bottom: 0;
+}
+
+.poem-content p:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+/* 页脚 */
+.page-footer {
+  width: 100%;
+  background-color: var(--footer-bg);
+  backdrop-filter: blur(8px);
+  padding: 1.5rem 0;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  height: 100px; /* 固定页脚高度 */
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0.5rem 2rem;
+  color: var(--footer-text);
+  font-size: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  justify-content: center;
+  align-items: center;
+  gap: 1rem; /* 稍微减小间距 */
+  width: 100%; /* 确保占满全宽 */
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease;
+  justify-content: center;
+}
+
+.contact-item:hover {
+  transform: translateY(-2px);
+}
+
+.contact-item i {
+  color: var(--footer-icon);
+  font-size: 1rem; /* 略微缩小图标 */
+}
+
+.contact-item a,
+.contact-item span {
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.contact-item:hover a,
+.contact-item:hover span {
+  opacity: 1;
+}
+
+.contact-item a {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+}
+
+.contact-item a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.contact-item:hover a::after {
+  width: 100%;
+}
+
+/* 主题切换按钮 */
+.theme-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--toggle-bg);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px var(--shadow-color);
+  z-index: 100;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.sun,
+.moon {
+  position: absolute;
+  transition: opacity 0.3s ease, transform 0.5s ease;
+}
+
+.sun {
+  opacity: var(--toggle-icon-active);
+}
+
+.moon {
+  opacity: calc(1 - var(--toggle-icon-active));
+}
+
+/* 视差滚动效果 */
+@media (prefers-reduced-motion: no-preference) {
+  .stanza {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stanza:nth-child(1) {
+    --animation-order: 0;
+  }
+  .stanza:nth-child(2) {
+    --animation-order: 0;
+  }
+  .stanza:nth-child(3) {
+    --animation-order: 0;
+  }
+  .stanza:nth-child(4) {
+    --animation-order: 0;
+  }
+  .stanza:nth-child(5) {
+    --animation-order: 0;
+  }
+  .stanza:nth-child(6) {
+    --animation-order: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  /* 简化淡入动画，保留基本效果但不使用淡出 */
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .poem-container {
+    padding: 2rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .poem-title {
+    font-size: 2rem;
+  }
+
+  .poem-content {
+    font-size: 1.1rem;
+  }
+
+  .footer-content,
+  .contact-info {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .contact-item {
+    justify-content: center;
+  }
+  
+  .page-footer {
+    padding: 1.2rem 0;
+    height: auto; /* 在移动端自适应高度 */
+    min-height: 80px; /* 最小高度保证 */
+  }
+  
+  main {
+    min-height: calc(100vh - 80px); /* 调整预留高度 */
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    min-height: calc(100vh - 70px); /* 更小屏幕预留更少高度 */
+    padding: 1.5rem 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .poem-container {
+    margin-bottom: 1rem;
+    padding: 1.5rem 1rem; /* 减小内边距 */
+  }
+  
+  .poem-title {
+    font-size: 1.75rem;
+  }
+
+  .poem-content {
+    font-size: 1rem;
+    line-height: 1.8; /* 减小行高，使内容更紧凑 */
+  }
+
+  .stanza {
+    margin-bottom: 1.5rem; /* 减小段落间距 */
+  }
+
+  .theme-toggle {
+    top: 1rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .footer-content,
+  .contact-info {
+    gap: 0.5rem; /* 进一步减小间距 */
+    padding: 0 1rem; /* 减小页脚内容内边距 */
+  }
+
+  .contact-item {
+    font-size: 0.85rem;
+  }
+  
+  .page-footer {
+    padding: 0.75rem 0; /* 减小上下内边距 */
+    min-height: 70px; /* 更小屏幕更小的最小高度 */
+  }
+  
+  .contact-item i {
+    font-size: 0.9rem; /* 在移动端进一步缩小图标 */
+  }
+}
+
+/* 主要内容区 */
+.content {
+  position: relative;
+  z-index: 10;
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 800px;
+  text-align: center;
+}
+
+/* 渐隐文本效果 */
+.stanza {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  will-change: opacity, transform; /* 提示浏览器优化性能 */
+}
+
+.stanza.fade-out {
+  /* 删除淡出效果 */
+  display: none;
+}
