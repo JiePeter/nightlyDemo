@@ -1,48 +1,35 @@
-# 朦胧诗歌展示页面
+# Nightly Poem: An Interactive Thematic Experience
 
-这是一个简洁、优化的网页项目，用于展示诗歌作品，具有视差滚动效果和主题切换功能。
+## Overview
+A responsive, poetic web application that offers an immersive reading experience with dynamic theme switching and subtle animations.
 
-## 功能特点
+## Features
+- 🌓 Adaptive dark/light theme with smooth transitions
+- 📱 Responsive design for mobile and desktop
+- 🎨 Layered SVG background with parallax scrolling
+- ✨ Subtle GSAP animations and interactions
+- 🌈 Theme switching via:
+  - Mobile swipe gestures
+  - Desktop toggle button
+  - Keyboard arrow keys
 
-- **响应式设计**：在各种设备上都能良好显示
-- **无障碍支持**：符合无障碍标准，可通过键盘操作
-- **主题切换**：支持黑夜/白天模式切换
-- **视差效果**：滚动时背景相对位移，增强沉浸感
-- **SVG背景**：使用模糊滤镜的SVG作为背景，展示位移变化
-- **性能优化**：移除了不必要的文字淡入淡出逻辑，提高性能
+## Technologies
+- HTML5
+- CSS3
+- JavaScript
+- GSAP
+- Alpine.js
+- Locomotive Scroll
 
-## 文件结构
+## Setup
+1. Clone the repository
+2. Open `index.html` in a modern browser
+3. Enjoy the poetic journey!
 
-- `index.html` - 页面结构和内容
-- `style.css` - 样式定义和动画效果
-- `script.js` - 交互功能实现
+## Accessibility
+- Respects system color scheme preferences
+- Supports reduced motion settings
+- Semantic HTML structure
 
-## 使用说明
-
-1. 直接在浏览器中打开 `index.html` 查看效果
-2. 点击右上角的主题切换按钮切换黑夜/白天模式
-3. 滚动页面可体验视差效果
-4. 鼠标移动也会产生轻微的背景偏移
-
-## 自定义
-
-- 诗歌内容可在 `index.html` 中的 `.poem-content` 部分修改
-- SVG背景可根据需求进行填充或替换
-- 颜色主题可在 `style.css` 的 `:root` 和 `[data-theme="light"]` 中调整
-
-## 最近更新
-
-- 移除了无效的文字隐藏逻辑
-- 为文字框底部预留了合适间距
-- 略微缩小了联系用的图标
-- 页脚使用更适合配合图标风格的无衬线字体
-- 使用Grid布局优化页脚响应式设计，在宽度允许时可并排显示联系信息
-- 将页脚从固定位置改为常规流布局，提升整体风格一致性
-
-## 浏览器兼容性
-
-支持所有现代浏览器，包括：
-- Chrome
-- Firefox
-- Safari
-- Edge 
+## License
+MIT License 

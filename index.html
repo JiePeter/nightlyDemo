@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="一首短诗">
-    <title>问诊</title>
+    <title>一次问诊</title>
     <link rel="stylesheet" href="style.css">
     <!-- 添加在线字体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,129 +12,54 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- 添加Font Awesome图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 添加GSAP动画库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- 添加Alpine.js (UMD版本) -->
+    <script src="https://unpkg.com/alpinejs@3.13.3/dist/cdn.min.js" defer></script>
+    <!-- 添加Locomotive Scroll (UMD版本) 仅在桌面端使用 -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
 </head>
 <body>
-    <div class="theme-toggle" role="button" aria-label="切换主题" tabindex="0">
-        <span class="sun">☀️</span>
-        <span class="moon">🌙</span>
-    </div>
-
     <div class="background">
-        <!-- 夜间模式背景 -->
-        <div class="night-scene">
-            <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 1600 800' preserveAspectRatio="xMidYMid slice">
-                <rect fill='#0A192F' width='1600' height='800'/>
-                <g fill-opacity='1'>
-                    <polygon fill='#342b4c' points='800 100 0 200 0 800 1600 800 1600 200'/>
-                    <polygon fill='#633c62' points='800 200 0 400 0 800 1600 800 1600 400'/>
-                    <polygon fill='#954d6e' points='800 300 0 600 0 800 1600 800 1600 600'/>
-                    <polygon fill='#c3646f' points='1600 800 800 400 0 800'/>
-                    <polygon fill='#e6836a' points='1280 800 800 500 320 800'/>
-                    <polygon fill='#fbab65' points='533.3 800 1066.7 800 800 600'/>
-                    <polygon fill='#FFD86A' points='684.1 800 914.3 800 800 700'/>
+        <!-- 使用同一SVG结构，通过CSS控制颜色 -->
+        <div class="scene-container">
+            <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 1600 800' preserveAspectRatio="xMidYMid slice" class="theme-svg">
+                <!-- 背景矩形 -->
+                <rect class="bg-rect" width='1600' height='800'/>
+                <g class="color-layers">
+                    <!-- 分层颜色 - 由上至下 -->
+                    <polygon class="layer-1" points='800 100 0 200 0 800 1600 800 1600 200'/>
+                    <polygon class="layer-2" points='800 200 0 400 0 800 1600 800 1600 400'/>
+                    <polygon class="layer-3" points='800 300 0 600 0 800 1600 800 1600 600'/>
+                    <polygon class="layer-4" points='1600 800 800 400 0 800'/>
+                    <polygon class="layer-5" points='1280 800 800 500 320 800'/>
+                    <polygon class="layer-6" points='533.3 800 1066.7 800 800 600'/>
+                    <polygon class="layer-7" points='684.1 800 914.3 800 800 700'/>
                 </g>
             </svg>
         </div>
-        
-        <!-- 白天模式背景 - 重复图案 -->
-        <div class="day-scene">
-            <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>
-                <defs>
-                    <pattern id="dayPattern" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-                      <rect fill="#FFFFFF" width="200" height="200" />
-                      <g fill="none" stroke="#FFD000" stroke-width="1" stroke-opacity="0.2">
-                        <rect x="-40" y="40" width="75" height="75"/>
-                        <rect x="-35" y="45" width="65" height="65"/>
-                        <rect x="-30" y="50" width="55" height="55"/>
-                        <rect x="-25" y="55" width="45" height="45"/>
-                        <rect x="-20" y="60" width="35" height="35"/>
-                        <rect x="-15" y="65" width="25" height="25"/>
-                        <rect x="-10" y="70" width="15" height="15"/>
-                        <rect x="-5" y="75" width="5" height="5"/>
-                        <rect width="35" height="35"/>
-                        <rect x="5" y="5" width="25" height="25"/>
-                        <rect x="10" y="10" width="15" height="15"/>
-                        <rect x="15" y="15" width="5" height="5"/>
-                        <rect x="40" width="75" height="75"/>
-                        <rect x="45" y="5" width="65" height="65"/>
-                        <rect x="50" y="10" width="55" height="55"/>
-                        <rect x="55" y="15" width="45" height="45"/>
-                        <rect x="60" y="20" width="35" height="35"/>
-                        <rect x="65" y="25" width="25" height="25"/>
-                        <rect x="70" y="30" width="15" height="15"/>
-                        <rect x="75" y="35" width="5" height="5"/>
-                        <rect x="40" y="80" width="35" height="35"/>
-                        <rect x="45" y="85" width="25" height="25"/>
-                        <rect x="50" y="90" width="15" height="15"/>
-                        <rect x="55" y="95" width="5" height="5"/>
-                        <rect x="120" y="-40" width="75" height="75"/>
-                        <rect x="125" y="-35" width="65" height="65"/>
-                        <rect x="130" y="-30" width="55" height="55"/>
-                        <rect x="135" y="-25" width="45" height="45"/>
-                        <rect x="140" y="-20" width="35" height="35"/>
-                        <rect x="145" y="-15" width="25" height="25"/>
-                        <rect x="150" y="-10" width="15" height="15"/>
-                        <rect x="155" y="-5" width="5" height="5"/>
-                        <rect x="120" y="40" width="35" height="35"/>
-                        <rect x="125" y="45" width="25" height="25"/>
-                        <rect x="130" y="50" width="15" height="15"/>
-                        <rect x="135" y="55" width="5" height="5"/>
-                        <rect y="120" width="75" height="75"/>
-                        <rect x="5" y="125" width="65" height="65"/>
-                        <rect x="10" y="130" width="55" height="55"/>
-                        <rect x="15" y="135" width="45" height="45"/>
-                        <rect x="20" y="140" width="35" height="35"/>
-                        <rect x="25" y="145" width="25" height="25"/>
-                        <rect x="30" y="150" width="15" height="15"/>
-                        <rect x="35" y="155" width="5" height="5"/>
-                        <rect x="200" y="120" width="75" height="75"/>
-                        <rect x="40" y="200" width="75" height="75"/>
-                        <rect x="80" y="80" width="75" height="75"/>
-                        <rect x="85" y="85" width="65" height="65"/>
-                        <rect x="90" y="90" width="55" height="55"/>
-                        <rect x="95" y="95" width="45" height="45"/>
-                        <rect x="100" y="100" width="35" height="35"/>
-                        <rect x="105" y="105" width="25" height="25"/>
-                        <rect x="110" y="110" width="15" height="15"/>
-                        <rect x="115" y="115" width="5" height="5"/>
-                        <rect x="80" y="160" width="35" height="35"/>
-                        <rect x="85" y="165" width="25" height="25"/>
-                        <rect x="90" y="170" width="15" height="15"/>
-                        <rect x="95" y="175" width="5" height="5"/>
-                        <rect x="120" y="160" width="75" height="75"/>
-                        <rect x="125" y="165" width="65" height="65"/>
-                        <rect x="130" y="170" width="55" height="55"/>
-                        <rect x="135" y="175" width="45" height="45"/>
-                        <rect x="140" y="180" width="35" height="35"/>
-                        <rect x="145" y="185" width="25" height="25"/>
-                        <rect x="150" y="190" width="15" height="15"/>
-                        <rect x="155" y="195" width="5" height="5"/>
-                        <rect x="160" y="40" width="75" height="75"/>
-                        <rect x="165" y="45" width="65" height="65"/>
-                        <rect x="170" y="50" width="55" height="55"/>
-                        <rect x="175" y="55" width="45" height="45"/>
-                        <rect x="180" y="60" width="35" height="35"/>
-                        <rect x="185" y="65" width="25" height="25"/>
-                        <rect x="190" y="70" width="15" height="15"/>
-                        <rect x="195" y="75" width="5" height="5"/>
-                        <rect x="160" y="120" width="35" height="35"/>
-                        <rect x="165" y="125" width="25" height="25"/>
-                        <rect x="170" y="130" width="15" height="15"/>
-                        <rect x="175" y="135" width="5" height="5"/>
-                        <rect x="200" y="200" width="35" height="35"/>
-                        <rect x="200" width="35" height="35"/>
-                        <rect y="200" width="35" height="35"/>
-                      </g>
-                    </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#dayPattern)" />
-            </svg>
+    </div>
+
+    <!-- 滑动提示（仅在移动端显示） -->
+    <div class="swipe-hint mobile-only">
+        <div class="hint-icon">
+            <i class="fas fa-chevron-left"></i>
+            <p class="hint-text">左右滑动切换主题</p>
+            <i class="fas fa-chevron-right"></i>
         </div>
     </div>
 
-    <main>
-        <article class="poem-container">
-            <div class="poem-content">
+    <!-- 桌面端主题切换按钮 -->
+    <div class="theme-toggle desktop-only">
+        <button class="theme-btn" id="themeToggleBtn">
+            <i class="fas fa-moon dark-icon"></i>
+            <i class="fas fa-sun light-icon"></i>
+        </button>
+    </div>
+
+    <main data-scroll-container>
+        <article class="poem-container" data-scroll data-scroll-speed="1">
+            <div class="poem-content" id="poem-content">
                 <div class="stanza">
                     <p>灯光亮得柔软</p>
                     <p>你今天感觉如何？</p>
